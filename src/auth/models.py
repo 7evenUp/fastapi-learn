@@ -1,8 +1,9 @@
 from datetime import datetime
 from sqlalchemy import MetaData, String, Integer, TIMESTAMP, ForeignKey, Table, Column, JSON, Boolean
-from sqlalchemy import String, Integer, TIMESTAMP, ForeignKey, Column, Boolean
 from sqlalchemy.orm import Mapped, DeclarativeBase, mapped_column
 from fastapi_users.db import SQLAlchemyBaseUserTable
+
+from src.database import Base
 
 metadata = MetaData()
 
