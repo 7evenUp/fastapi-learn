@@ -5,7 +5,8 @@ from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, IntegerIDMixin
 from fastapi_users import exceptions, models, schemas
 
-from auth.database import User, get_user_db
+from src.auth.models import User
+from src.auth.utils import get_user_db
 
 SECRET = "SECRET"
 
@@ -43,7 +44,6 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, uuid.UUID]):
         await self.on_after_register(created_user, request)
 
         return created_user
-
 
 
 async def get_user_manager(user_db=Depends(get_user_db)):
