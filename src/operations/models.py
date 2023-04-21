@@ -9,7 +9,5 @@ operation = Table(
     Column("quantity", String),
     Column("figi", String),
     Column("instrument_type", String, nullable=True),
-    Column("date", TIMESTAMP),
     Column("type", String),
-
 )
