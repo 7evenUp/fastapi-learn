@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy import select
+from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
-from pydantic.types import List
 
 from src.database import get_async_session
 from src.operations.models import operation
+from src.operations.schemas import OperationCreate
 
 class Operation(BaseModel):
     id: int
@@ -30,3 +30,10 @@ async def get_specific_operations(operation_type: str, session: AsyncSession = D
     result = await session.execute(query)
 
     return [dict(r._mapping) for r in result]
+
+@router.post('/')
+async def add_specific_operations(new_operation: OperationCreate, session: AsyncSession = Depends(get_async_session)):
+    stmt = insert(operation).values(**new_operation.dict())
+    await session.execute(stmt)
+    await session.commit()
+    return {"status": 200}
