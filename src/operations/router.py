@@ -1,7 +1,11 @@
-from fastapi import APIRouter, Depends
+import time
+
 from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
+
+from fastapi import APIRouter, Depends
+from fastapi_cache.decorator import cache
 
 from src.database import get_async_session
 from src.operations.models import operation
@@ -21,6 +25,13 @@ router = APIRouter(
     prefix="/operations",
     tags=["Operation"]
 )
+
+
+@router.get('/long_operation')
+@cache(expire=30)
+def get_long_operation():
+    time.sleep(2)
+    return "Many many data"
 
 
 @router.get("/")
